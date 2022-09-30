@@ -47,6 +47,13 @@
 			<artifactId>axis2-transport-local</artifactId>
 			<version>${axis2.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>5.2.1</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
