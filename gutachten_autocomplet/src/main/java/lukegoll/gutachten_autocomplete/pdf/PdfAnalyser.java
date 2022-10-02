@@ -1,12 +1,14 @@
 package lukegoll.gutachten_autocomplete.pdf;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 public class PdfAnalyser {
 	private PDDocument pdfToAnalyse = new PDDocument();
-	private PdfReader pdfReader = new PdfReader();
+	private PdfReader pdfReader;
 
 	public PdfAnalyser() {
 
@@ -20,6 +22,28 @@ public class PdfAnalyser {
 			alignedText += scanner.next();
 		}
 		System.out.println(alignedText);
+	}
+
+	public void findName() {
+		String temptext = pdfReader.getTextFromFile();
+		String searchText = "";
+		Scanner scanner = new Scanner(temptext);
+		List<String> name = new ArrayList<String>();
+
+		while (scanner.hasNext()) {
+			searchText = scanner.next();
+			if (searchText.contains("hr")) {
+				for (int i = 0; i < 3; i++) {
+					name.add(temptext);
+					temptext = scanner.next();
+				}
+				break;
+			}
+		}
+		for (int i = 0; i < name.size(); i++) {
+			System.out.println(name.get(i));
+		}
+
 	}
 
 	/**
