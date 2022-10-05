@@ -3,8 +3,7 @@ package lukegoll.gutachten_autocomplete.itextpdf;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-
+import com.itextpdf.kernel.exceptions.PdfException;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
@@ -20,6 +19,7 @@ public class Pdf {
 	private String filePath;
 	private String pathToSave;
 	private String textFromFile;
+	private PdfDocument pdfToRead;
 	private FileChooser fileChooser = new FileChooser();
 
 	public Pdf() {
@@ -32,22 +32,28 @@ public class Pdf {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void readPdfFile() throws IOException {
+	public void readPdfFile() throws PdfException {
 		StringBuffer buff = new StringBuffer();
 		try {
+			PdfReader reader = new PdfReader(fileToRead);
+			pdfToRead = new PdfDocument(reader);
 
-			PdfReader reader = new PdfReader("/Users/lukegollenstede/Aufnahmebogen Kopie Kopie.pdf");
-			PdfDocument doc = new PdfDocument(reader);
-			Rectangle rec = new Rectangle(0, 650, 100, 100);
-			TextRegionEventFilter filter = new TextRegionEventFilter(rec);
-			FilteredTextEventListener eventlist = new FilteredTextEventListener(new LocationTextExtractionStrategy(),
-					filter);
+			int num = pdfToRead.getNumberOfPages();
+			for (int i = 0; i < num; i++) {
+				String str = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(i));
+				buff.append(str + "/n");
 
-			int num = doc.getNumberOfPages();
-			String str = PdfTextExtractor.getTextFromPage(doc.getPage(1), eventlist);
-			System.out.println(str);
-			System.out.println(doc.getPage(1).getPageSize());
+			}
+			textFromFile = buff.toString();
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void closePdfFile() throws PdfException {
+		try {
+			pdfToRead.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,20 +102,6 @@ public class Pdf {
 	}
 
 	/**
-	 * @return the pdfToRead
-	 */
-	public PDDocument getPdfToRead() {
-		return pdfToRead;
-	}
-
-	/**
-	 * @param pdfToRead the pdfToRead to set
-	 */
-	public void setPdfToRead(PDDocument pdfToRead) {
-		this.pdfToRead = pdfToRead;
-	}
-
-	/**
 	 * @return the textFromFile
 	 */
 	public String getTextFromFile() {
@@ -121,6 +113,20 @@ public class Pdf {
 	 */
 	public void setTextFromFile(String textFromFile) {
 		this.textFromFile = textFromFile;
+	}
+
+	/**
+	 * @return the pdfToRead
+	 */
+	public PdfDocument getPdfToRead() {
+		return pdfToRead;
+	}
+
+	/**
+	 * @param pdfToRead the pdfToRead to set
+	 */
+	public void setPdfToRead(PdfDocument pdfToRead) {
+		this.pdfToRead = pdfToRead;
 	}
 
 }
