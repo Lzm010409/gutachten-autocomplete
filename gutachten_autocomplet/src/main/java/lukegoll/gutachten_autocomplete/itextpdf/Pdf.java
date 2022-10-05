@@ -1,54 +1,56 @@
-package lukegoll.gutachten_autocomplete.pdf;
+package lukegoll.gutachten_autocomplete.itextpdf;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
+
+import com.itextpdf.kernel.geom.Rectangle;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor;
+import com.itextpdf.kernel.pdf.canvas.parser.filter.TextRegionEventFilter;
+import com.itextpdf.kernel.pdf.canvas.parser.listener.FilteredTextEventListener;
+import com.itextpdf.kernel.pdf.canvas.parser.listener.LocationTextExtractionStrategy;
 
 import lukegoll.gutachten_autocomplete.filechooser.FileChooser;
 
-public class PdfReader {
+public class Pdf {
 	private File fileToRead;
 	private String filePath;
 	private String pathToSave;
-	private PDDocument pdfToRead;
-	private PDFTextStripper pdfStripper;
 	private String textFromFile;
 	private FileChooser fileChooser = new FileChooser();
 
-	public PdfReader() {
+	public Pdf() {
 		this.fileToRead = fileChooser.chooseFile();
 		this.filePath = this.fileToRead.getAbsolutePath();
 
 	}
 
+	public Pdf(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void readPdfFile() throws IOException {
+		StringBuffer buff = new StringBuffer();
 		try {
-			pdfToRead = PDDocument.load(fileToRead);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Fehler");
-		}
-	}
 
-	public void closePdfFile() throws IOException {
-		try {
-			this.pdfToRead.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+			PdfReader reader = new PdfReader("/Users/lukegollenstede/Aufnahmebogen Kopie Kopie.pdf");
+			PdfDocument doc = new PdfDocument(reader);
+			Rectangle rec = new Rectangle(0, 650, 100, 100);
+			TextRegionEventFilter filter = new TextRegionEventFilter(rec);
+			FilteredTextEventListener eventlist = new FilteredTextEventListener(new LocationTextExtractionStrategy(),
+					filter);
 
-	public void strippPdf() throws IOException {
-		try {
-			pdfStripper = new PDFTextStripper();
-			textFromFile = pdfStripper.getText(pdfToRead);
-			System.out.println(textFromFile);
+			int num = doc.getNumberOfPages();
+			String str = PdfTextExtractor.getTextFromPage(doc.getPage(1), eventlist);
+			System.out.println(str);
+			System.out.println(doc.getPage(1).getPageSize());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
