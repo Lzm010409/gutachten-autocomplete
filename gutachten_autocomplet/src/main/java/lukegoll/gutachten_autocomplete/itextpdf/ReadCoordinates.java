@@ -1,6 +1,6 @@
 package lukegoll.gutachten_autocomplete.itextpdf;
 
-public enum Coordinates {
+public enum ReadCoordinates {
 
 	AS(25, 650, 200, 32), TEL(25, 638, 100, 15), MAIL(150, 635, 200, 15), ADATUM(300, 782, 260, 23),
 	SDATUMORT(300, 759, 260, 23), GNUMMER(300, 736, 260, 23), SNUMMER(300, 713, 260, 23),
@@ -15,11 +15,11 @@ public enum Coordinates {
 	FALLGZUSTAND(300, 348, 200, 13), FKARRZUSTAND(300, 331, 200, 13), FLACKZUSTAND(300, 314, 200, 13),
 	FBZUSTAND(300, 314, 200, 13), FAUSSTATTUNG(25, 250, 270, 60), NBEHVORSCHADEN(25, 182, 270, 75),
 	NOTIZEN(25, 30, 530, 120), SCHADENHERGANG(300, 266, 270, 45), PLAUSIBILITÄT(300, 251, 270, 15),
-	BEHVORSCHADEN(300, 196, 270, 45), SCHICHTDICKENMESSUNG(300, 166, 270, 15);
+	BEHVORSCHADEN(300, 196, 270, 45), SCHICHTDICKENMESSUNG(300, 166, 270, 15), DEFAULT(0, 0, 595, 841);
 
 	float first, second, third, fourth;
 
-	Coordinates(float i, float j, float k, float l) {
+	ReadCoordinates(float i, float j, float k, float l) {
 		// TODO Auto-generated constructor stub
 		this.first = i;
 		this.second = j;
@@ -84,5 +84,4 @@ public enum Coordinates {
 		this.fourth = fourth;
 	}
 
-	
 }

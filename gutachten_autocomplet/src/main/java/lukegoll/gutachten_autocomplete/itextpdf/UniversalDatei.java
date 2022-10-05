@@ -1,7 +1,6 @@
 package lukegoll.gutachten_autocomplete.itextpdf;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.itextpdf.kernel.exceptions.PdfException;
 import com.itextpdf.kernel.geom.Rectangle;
@@ -14,44 +13,52 @@ import com.itextpdf.kernel.pdf.canvas.parser.listener.LocationTextExtractionStra
 
 import lukegoll.gutachten_autocomplete.filechooser.FileChooser;
 
-public class Pdf {
-	private File fileToRead;
-	private String filePath;
-	private String pathToSave;
-	private String textFromFile;
-	private PdfDocument pdfToRead;
-	private FileChooser fileChooser = new FileChooser();
+public class UniversalDatei {
+	protected File fileToRead;
+	protected String filePath;
+	protected String pathToSave;
+	protected String textFromFile;
+	protected PdfDocument pdfToRead;
+	protected FileChooser fileChooser = new FileChooser();
 
-	public Pdf() {
+	public UniversalDatei() {
 		this.fileToRead = fileChooser.chooseFile();
 		this.filePath = this.fileToRead.getAbsolutePath();
-
 	}
 
-	public Pdf(String string) {
-		// TODO Auto-generated constructor stub
-	}
+	public void readFile(ReadCoordinates coor) throws Exception {
+		if (coor == null) {
+			StringBuffer buff = new StringBuffer();
+			try {
+				PdfReader reader = new PdfReader(fileToRead);
+				pdfToRead = new PdfDocument(reader);
 
-	public void readPdfFile() throws PdfException {
-		StringBuffer buff = new StringBuffer();
-		try {
+				int num = pdfToRead.getNumberOfPages();
+				for (int i = 0; i < num; i++) {
+					String str = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(i));
+					buff.append(str + "/n");
+
+				}
+				textFromFile = buff.toString();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
 			PdfReader reader = new PdfReader(fileToRead);
 			pdfToRead = new PdfDocument(reader);
+			Rectangle rec = new Rectangle(coor.getFirst(), coor.getSecond(), coor.getThird(), coor.getFourth());
+			TextRegionEventFilter filter = new TextRegionEventFilter(rec);
+			FilteredTextEventListener eventlist = new FilteredTextEventListener(new LocationTextExtractionStrategy(),
+					filter);
 
-			int num = pdfToRead.getNumberOfPages();
-			for (int i = 0; i < num; i++) {
-				String str = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(i));
-				buff.append(str + "/n");
+			textFromFile = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(1), eventlist);
 
-			}
-			textFromFile = buff.toString();
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		closeFile();
 	}
 
-	public void closePdfFile() throws PdfException {
+	public void closeFile() throws PdfException {
 		try {
 			pdfToRead.close();
 		} catch (Exception e) {
@@ -129,4 +136,17 @@ public class Pdf {
 		this.pdfToRead = pdfToRead;
 	}
 
+	/**
+	 * @return the fileChooser
+	 */
+	public FileChooser getFileChooser() {
+		return fileChooser;
+	}
+
+	/**
+	 * @param fileChooser the fileChooser to set
+	 */
+	public void setFileChooser(FileChooser fileChooser) {
+		this.fileChooser = fileChooser;
+	}
 }
