@@ -1,5 +1,7 @@
 package lukegoll.gutachten_autocomplete.itextpdf;
 
+import java.util.ArrayList;
+
 public enum ReadCoordinates {
 
 	AS(25, 650, 200, 32), TEL(25, 638, 100, 15), MAIL(150, 635, 200, 15), ADATUM(300, 782, 260, 23),
@@ -18,13 +20,14 @@ public enum ReadCoordinates {
 	BEHVORSCHADEN(300, 196, 270, 45), SCHICHTDICKENMESSUNG(300, 166, 270, 15), DEFAULT(0, 0, 595, 841);
 
 	float first, second, third, fourth;
-
+	
 	ReadCoordinates(float i, float j, float k, float l) {
 		// TODO Auto-generated constructor stub
 		this.first = i;
 		this.second = j;
 		this.third = k;
 		this.fourth = l;
+		
 
 	}
 
@@ -83,5 +86,7 @@ public enum ReadCoordinates {
 	public void setFourth(float fourth) {
 		this.fourth = fourth;
 	}
+	
+
 
 }

@@ -13,15 +13,16 @@ import com.itextpdf.kernel.pdf.canvas.parser.listener.LocationTextExtractionStra
 
 import lukegoll.gutachten_autocomplete.filechooser.FileChooser;
 
-public class UniversalDatei {
+public class UniversalDateiServiceImpl {
 	protected File fileToRead;
 	protected String filePath;
 	protected String pathToSave;
 	protected String textFromFile;
+	protected String textFromCoordinates;
 	protected PdfDocument pdfToRead;
 	protected FileChooser fileChooser = new FileChooser();
 
-	public UniversalDatei() {
+	public UniversalDateiServiceImpl() {
 		this.fileToRead = fileChooser.chooseFile();
 		this.filePath = this.fileToRead.getAbsolutePath();
 	}
@@ -52,11 +53,13 @@ public class UniversalDatei {
 			FilteredTextEventListener eventlist = new FilteredTextEventListener(new LocationTextExtractionStrategy(),
 					filter);
 
-			textFromFile = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(1), eventlist);
+			textFromCoordinates = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(1), eventlist);
 
 		}
 		closeFile();
 	}
+
+	
 
 	public void closeFile() throws PdfException {
 		try {
