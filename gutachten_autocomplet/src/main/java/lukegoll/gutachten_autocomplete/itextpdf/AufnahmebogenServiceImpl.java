@@ -173,8 +173,6 @@ public class AufnahmebogenServiceImpl extends UniversalDateiServiceImpl {
 	public void writeFahrzeugData(Fahrzeug fahrzeug) throws Exception {
 		startCoordinate = 13;
 		stopCoordinate = 42;
-		String[] bvorschadenArr;
-		String[] nbvorschadenArr;
 		fahrzeug.setKennzeichen(readFileWithReturn(ReadCoordinates.KENNZEICHEN));
 		fahrzeug.setArt(readFileWithReturn(ReadCoordinates.FART));
 		fahrzeug.setHersteller(readFileWithReturn(ReadCoordinates.FHERSTELLER));
@@ -202,19 +200,6 @@ public class AufnahmebogenServiceImpl extends UniversalDateiServiceImpl {
 		fahrzeug.setLackZustand(readFileWithReturn(ReadCoordinates.FLACKZUSTAND));
 		fahrzeug.setAusstattung(readFileWithReturn(ReadCoordinates.FAUSSTATTUNG));
 
-		String bVorschaden = readFileWithReturn(ReadCoordinates.BEHVORSCHADEN);
-		String nbVorschaden = readFileWithReturn(ReadCoordinates.NBEHVORSCHADEN);
-//
-		bvorschadenArr = bVorschaden.split("\\r?\\n");
-		nbvorschadenArr = nbVorschaden.split("\\r?\\n");
-
-		for (int i = 0; i < bvorschadenArr.length; i++) {
-			fahrzeug.addVorschaeden(bvorschadenArr[i], fahrzeug.getbVorschaeden());
-		}
-		for (int i = 0; i < nbvorschadenArr.length; i++) {
-			fahrzeug.addVorschaeden(nbvorschadenArr[i], fahrzeug.getbVorschaeden());
-		}
-
 	}
 
 	public void writeFallData(Fall fall) throws Exception {
@@ -222,7 +207,7 @@ public class AufnahmebogenServiceImpl extends UniversalDateiServiceImpl {
 		fall.setSchadenDatumOrt(readFileWithReturn(ReadCoordinates.SDATUMORT));
 		fall.setGutachtennummer(readFileWithReturn(ReadCoordinates.GNUMMER));
 		fall.setSchadennummer(readFileWithReturn(ReadCoordinates.SNUMMER));
-		// fall.setVersicherung(readFileWithReturn(ReadCoordinates.?));
+		//fall.setVersicherung(readFileWithReturn(ReadCoordinates.?));
 		fall.setKennzeichenug(readFileWithReturn(ReadCoordinates.KENNZEICHENUG));
 		fall.setBort(readFileWithReturn(ReadCoordinates.BORT));
 		fall.setBdatum(readFileWithReturn(ReadCoordinates.BDATUM));
@@ -230,10 +215,11 @@ public class AufnahmebogenServiceImpl extends UniversalDateiServiceImpl {
 		fall.setBuhrzeit(readFileWithReturn(ReadCoordinates.BUHRZEIT));
 		fall.setBanwesend(readFileWithReturn(ReadCoordinates.BANWESEND));
 		fall.setSchadenhergang(readFileWithReturn(ReadCoordinates.SCHADENHERGANG));
-		// fall.setPlausibel(readFileWithReturn(ReadCoordinates.ADATUM));
-		// fall.setSchichtdicke(readFileWithReturn(ReadCoordinates.ADATUM));
+		//fall.setPlausibel(readFileWithReturn(ReadCoordinates.ADATUM));
+		//fall.setSchichtdicke(readFileWithReturn(ReadCoordinates.ADATUM));
 		fall.setNotizen(readFileWithReturn(ReadCoordinates.NOTIZEN));
-
+		
+		
 	}
 
 	/**
