@@ -59,7 +59,24 @@ public class UniversalDateiServiceImpl {
 		closeFile();
 	}
 
-	
+	public String readFileWithReturn(ReadCoordinates coor) throws Exception {
+		String readedFile = "";
+		try {
+			PdfReader reader = new PdfReader(fileToRead);
+			pdfToRead = new PdfDocument(reader);
+			Rectangle rec = new Rectangle(coor.getFirst(), coor.getSecond(), coor.getThird(), coor.getFourth());
+			TextRegionEventFilter filter = new TextRegionEventFilter(rec);
+			FilteredTextEventListener eventlist = new FilteredTextEventListener(new LocationTextExtractionStrategy(),
+					filter);
+
+			readedFile = PdfTextExtractor.getTextFromPage(pdfToRead.getPage(1), eventlist);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return readedFile;
+	}
 
 	public void closeFile() throws PdfException {
 		try {

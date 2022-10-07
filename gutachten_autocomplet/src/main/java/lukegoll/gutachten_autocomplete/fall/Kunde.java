@@ -11,6 +11,7 @@ public class Kunde extends User {
 	public Kunde() {
 		
 	}
+	
 
 	/**
 	 * @return the name
